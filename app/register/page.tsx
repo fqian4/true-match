@@ -39,12 +39,36 @@ export default function RegisterPage() {
       .from('users')
       .insert([{ wechat_id: wechatId, avatar_url: avatarUrl }]);
 
-    if (error) alert('注册失败: ' + error.message);
-    else router.push('/');
+if (error) {
+      alert('注册失败: ' + error.message);
+      setLoading(false);
+      return;
+    }
+
+    // ⭐ 新增：注册后自动登录
+    const { data: user } = await supabase
+      .from('users')
+      .select('*')
+      .eq('wechat_id', wechatId)
+      .single();
+
+    if (!user) {
+      alert('注册成功，但登录失败，请手动登录');
+      setLoading(false);
+      return;
+    }
+
+    // 保存登录态
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+    // 跳转主页
+    router.push('/');
+
     setLoading(false);
   };
 
   return (
+
     <div className="flex justify-center items-center h-screen">
       <Card className="w-full max-w-md">
         <CardHeader>

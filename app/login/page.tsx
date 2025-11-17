@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -34,23 +37,31 @@ export default function LoginPage() {
     setLoading(false);
   };
 
-  return (
-    <div className="flex flex-col items-center p-6">
-      <h1 className="text-2xl font-bold mb-4">登录</h1>
-      <input
-        type="text"
-        className="border p-2 mb-2 w-64"
-        placeholder="请输入微信号"
+  
+
+ return (
+
+    <div className="flex justify-center items-center h-screen">
+      <Card className="w-full max-w-md">
+        <CardHeader>
+          <CardTitle>登录</CardTitle>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4">
+          <Input
+            placeholder="请输入微信号"
         value={wechatId}
         onChange={(e) => setWechatId(e.target.value)}
-      />
-      <button
-        className="bg-blue-500 text-white p-2 rounded w-64"
+          />
+
+          <Button
         onClick={handleLogin}
         disabled={loading}
       >
         {loading ? '登录中…' : '登录'}
-      </button>
+          </Button>
+        </CardContent>
+      </Card>
     </div>
   );
+
 }
