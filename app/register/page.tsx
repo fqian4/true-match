@@ -19,6 +19,18 @@ export default function RegisterPage() {
     }
     setLoading(true);
 
+const { data: existUser } = await supabase
+  .from('users')
+  .select('id')
+  .eq('wechat_id', wechatId)
+  .maybeSingle();
+
+if (existUser) {
+  alert('该账号已注册，请更换账号');
+  setLoading(false);
+  return;
+}
+
     // 上传头像到 Supabase Storage
     const fileExt = avatarFile.name.split('.').pop();
     const fileName = `${Date.now()}.${fileExt}`;
@@ -69,27 +81,42 @@ if (error) {
 
   return (
 
-    <div className="flex justify-center items-center h-screen">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>注册账号</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+
+    <div className="flex justify-center items-center h-screen bg-white">
+
+      <div className="w-full max-w-lg flex flex-col gap-6 px-4">
+
+<h1 className="text-xl font-normal text-center">TrueMatch</h1>
+
+<div className="flex items-center gap-3">
           <Input
             placeholder="输入微信号"
             value={wechatId}
             onChange={(e) => setWechatId(e.target.value)}
+className="h-12 text-lg placeholder:text-gray-460"
           />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
-          />
+<input
+  id="avatarUpload"
+  type="file"
+  accept="image/*"
+  className="hidden"
+  onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
+/>
+
+{/* 圆形灰色上传按钮，无边框 */}
+<button
+  type="button"
+  onClick={() => document.getElementById('avatarUpload')?.click()}
+  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-gray-100 text-gray text-xl"
+>
+  +
+</button>
           <Button onClick={handleRegister} disabled={loading}>
             {loading ? '提交中…' : '注册'}
+
           </Button>
-        </CardContent>
-      </Card>
+</div>
+      </div>
     </div>
   );
 }

@@ -6,6 +6,9 @@ export default function MatchesPage() {
   const [currentUser, setCurrentUser] = useState<any | null>(null);
   const [matches, setMatches] = useState<any[]>([]);
 
+const [previewImage, setPreviewImage] = useState<string | null>(null);
+const [showPreview, setShowPreview] = useState(false);
+
   useEffect(() => {
     // 从 localStorage 获取登录用户
     const user = localStorage.getItem('currentUser');
@@ -53,12 +56,29 @@ export default function MatchesPage() {
             <img
               src={u.avatar_url}
               alt="avatar"
-              className="w-24 h-24 rounded-full mx-auto mb-2"
+              className="w-24 h-24 rounded-full object-cover mx-auto mb-3 border"
+  onClick={() => {
+    setPreviewImage(u.avatar_url);
+    setShowPreview(true);
+}}
             />
             <p className="text-sm mb-2">微信号：{u.wechat_id}</p>
           </div>
         ))}
       </div>
+
+{showPreview && (
+        <div
+          className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
+          onClick={() => setShowPreview(false)}
+        >
+          <img
+            src={previewImage ?? ''}
+            className="max-w-[90%] max-h-[90%] rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
     </div>
   );
 }

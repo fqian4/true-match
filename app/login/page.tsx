@@ -31,6 +31,22 @@ export default function LoginPage() {
       return;
     }
 
+// 如果用户有密码 → 要求输入
+  if (user.password && user.password.trim() !== "") {
+    const inputPwd = prompt("请输入密码：");
+    if (inputPwd === null) {
+      setLoading(false);
+      return; // 用户取消
+    }
+
+    if (inputPwd !== user.password) {
+      alert("密码错误");
+      setLoading(false);
+      return;
+    }
+  }
+
+
     // 保存当前用户到 localStorage
     localStorage.setItem('currentUser', JSON.stringify(user));
     router.push('/');
@@ -41,16 +57,15 @@ export default function LoginPage() {
 
  return (
 
-    <div className="flex justify-center items-center h-screen">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle>登录</CardTitle>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-4">
+    <div className="flex justify-center items-center h-screen bg-white">
+      <div className="w-full max-w-lg flex flex-col gap-6 px-4">
+<h1 className="text-xl font-normal text-center">登录</h1>
+<div className="flex items-center gap-3">
           <Input
             placeholder="请输入微信号"
         value={wechatId}
         onChange={(e) => setWechatId(e.target.value)}
+className="h-12 text-lg placeholder:text-gray-460"
           />
 
           <Button
@@ -59,8 +74,8 @@ export default function LoginPage() {
       >
         {loading ? '登录中…' : '登录'}
           </Button>
-        </CardContent>
-      </Card>
+</div>
+    </div>
     </div>
   );
 

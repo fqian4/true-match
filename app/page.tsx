@@ -1,8 +1,9 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { MoreVertical } from 'lucide-react';
 
 export default function HomePage() {
   const [users, setUsers] = useState<any[]>([]);
@@ -10,6 +11,12 @@ export default function HomePage() {
 
 const [previewImage, setPreviewImage] = useState<string | null>(null);
 const [showPreview, setShowPreview] = useState(false);
+
+  const [menuOpen, setMenuOpen] = useState(false);
+
+const menuRef = useRef<HTMLDivElement>(null);
+
+
 
   useEffect(() => {
     // 从 localStorage 读取登录用户
@@ -36,6 +43,23 @@ console.log('parsedUser', parsedUser);
     };
     fetchUsers();
   }, []);
+
+useEffect(() => {
+  const handleClickOutside = (e: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      setMenuOpen(false);
+    }
+  };
+
+  document.addEventListener('mousedown', handleClickOutside);
+  return () => document.removeEventListener('mousedown', handleClickOutside);
+}, []);
+
+useEffect(() => {
+  if (typeof window !== 'undefined' && document.activeElement instanceof HTMLElement) {
+    document.activeElement.blur();
+  }
+}, []);
 
   const sendRequest = async (receiverId: string) => {
     if (!currentUser) return;
@@ -65,10 +89,81 @@ console.log('parsedUser', parsedUser);
 window.location.href = '/pay'
   };
 
+const handleSetPassword = async () => {
+  if (!currentUser) return;
+
+  const pwd = prompt("请输入新密码（无格式限制）：");
+
+  if (pwd === null) return; // 用户取消
+  if (pwd.trim() === "") {
+    alert("密码不能为空");
+    return;
+  }
+
+  const { error } = await supabase
+    .from('users')
+    .update({ password: pwd })
+    .eq('id', currentUser.id);
+
+  if (error) {
+    alert("设置失败，请稍后再试");
+  } 
+};
+
   return (
 
-<div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+<div className="bg-white min-h-screen p-4">
+
+    {/* 🔹 左上角的 Match 按钮 
+    <div className="fixed top-3 left-3 z-50 ml-2">
+      <button
+        className="font-normal text-xl cursor-pointer "
+        onClick={() => (window.location.href = '/matches')}
+      >
+        Match
+
+      </button>
+    </div>
+*/}
+
+<div className="fixed top-4 right-4 z-50" ref={menuRef}>
+        <button
+          onClick={() => setMenuOpen(!menuOpen)}
+          className="p-2 cursor-pointer"
+tabIndex={-1}
+        >
+<div className="flex gap-[2px]">
+  <span className="w-[3px] h-[3px] bg-black rounded-full"></span>
+  <span className="w-[3px] h-[3px] bg-black rounded-full"></span>
+  <span className="w-[3px] h-[3px] bg-black rounded-full"></span>
+</div>
+        </button>
+
+        {menuOpen && (
+          <div className="absolute right-0 mt-2 bg-white border shadow-lg rounded-lg w-32">
+            <button
+              className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => (window.location.href = '/matches')}
+            >
+              Matches
+            </button>
+            <button
+              className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => (window.location.href = '/requests')}
+            >
+              Requests
+            </button>
+<button
+  className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+  onClick={handleSetPassword}
+>
+  密码设置
+</button>
+          </div>
+        )}
+      </div>
+
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
       {users.map((u) => (
         <Card key={u.id} className="p-4 flex flex-col items-center">
           <img
@@ -85,6 +180,12 @@ window.location.href = '/pay'
               ? u.wechat_id.charAt(0) + '***'
               : '***'}
           </p>
+{u.douyin && (
+  <p className="text-sm text-gray-500 mb-2">
+    抖音：{u.douyin}
+  </p>
+)}
+
 <div className="flex gap-3 mt-2">
   <Button size="sm" onClick={() => sendRequest(u.id)}>
     发申请
