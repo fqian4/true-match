@@ -9,6 +9,8 @@ export default function MatchesPage() {
 const [previewImage, setPreviewImage] = useState<string | null>(null);
 const [showPreview, setShowPreview] = useState(false);
 
+const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     // 从 localStorage 获取登录用户
     const user = localStorage.getItem('currentUser');
@@ -33,6 +35,7 @@ const [showPreview, setShowPreview] = useState(false);
 
       if (error) {
         console.error(error);
+setLoading(false);
         return;
       }
 
@@ -41,6 +44,7 @@ const [showPreview, setShowPreview] = useState(false);
         r.sender_id === parsedUser.id ? r.receiver : r.sender
       );
       setMatches(matchList ?? []);
+setLoading(false);
     };
 
     fetchMatches();
@@ -49,7 +53,11 @@ const [showPreview, setShowPreview] = useState(false);
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold mb-4">我的匹配</h1>
-      {matches.length === 0 && <p>暂无匹配</p>}
+{loading ? (
+
+) : matches.length === 0 ? (
+  <p>暂无匹配</p>
+) : (
       <div className="grid grid-cols-2 gap-4">
         {matches.map((u) => (
           <div key={u.wechat_id} className="border p-4 rounded text-center">
@@ -66,6 +74,7 @@ const [showPreview, setShowPreview] = useState(false);
           </div>
         ))}
       </div>
+)}
 
 {showPreview && (
         <div
