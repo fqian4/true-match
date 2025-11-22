@@ -6,6 +6,8 @@ export default function RequestsPage() {
   const [requests, setRequests] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState<any | null>(null);
 
+const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     // 1️⃣ 从 localStorage 获取当前用户
     const user = localStorage.getItem('currentUser');
@@ -24,6 +26,7 @@ export default function RequestsPage() {
         .eq('receiver_id', parsedUser.id) // 只看收到的申请
         .eq('status', 'pending');        // 只显示待处理
       if (!error) setRequests(data ?? []);
+setLoading(false);
     };
     fetchRequests();
   }, []);
@@ -47,8 +50,10 @@ export default function RequestsPage() {
   return (
     <div className="p-6">
       <h1 className="text-xl font-bold mb-4">收到的申请</h1>
-      {requests.length === 0 && <p>暂无申请</p>}
-      {requests.map((r) => (
+  {loading ? null : requests.length === 0 ? (
+  <p>暂无申请</p>
+) : (
+      requests.map((r) => (
         <div key={r.id} className="border p-4 mb-2 flex items-center gap-4">
           <img
             src={r.sender.avatar_url}
@@ -65,7 +70,8 @@ export default function RequestsPage() {
             </button>
           </div>
         </div>
-      ))}
+      ))
+)}
     </div>
   );
 }
