@@ -53,7 +53,7 @@ export default function RequestsPage() {
           <img
             src={r.sender.avatar_url}
             alt="avatar"
-            className="w-16 h-16 rounded-full"
+            className="w-16 h-16 object-cover rounded-full"
           />
           <div>
             <p>来自微信号：{r.sender.wechat_id}</p>

@@ -25,8 +25,8 @@ const menuRef = useRef<HTMLDivElement>(null);
 console.log('localStorage user', user);
 
     if (!user) {
-      alert('请先登录');
-      return;
+window.location.href = '/register';
+  return;
     }
     const parsedUser = JSON.parse(user);
 
@@ -151,7 +151,7 @@ tabIndex={-1}
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => (window.location.href = '/requests')}
             >
-              Requests
+              申请
             </button>
 <button
   className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
