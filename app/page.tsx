@@ -16,6 +16,11 @@ const [showPreview, setShowPreview] = useState(false);
 
 const menuRef = useRef<HTMLDivElement>(null);
 
+const logout = () => {
+  localStorage.removeItem('currentUser');
+  window.location.href = '/register';
+};
+
 
 
   useEffect(() => {
@@ -158,6 +163,12 @@ tabIndex={-1}
   onClick={handleSetPassword}
 >
   密码设置
+</button>
+<button
+  className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer"
+  onClick={logout}
+>
+  退出
 </button>
           </div>
         )}

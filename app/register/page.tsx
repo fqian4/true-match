@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 
+
 export default function RegisterPage() {
   const router = useRouter();
   const [wechatId, setWechatId] = useState('');
@@ -80,7 +81,15 @@ if (error) {
   };
 
   return (
-
+<>
+<div className="fixed top-4 right-4 z-50">
+  <button
+    className="text-sm text-gray-500 hover:text-gray-800 transition-colors duration-200"
+    onClick={() => router.push('/login')}
+  >
+    登录
+  </button>
+</div>
 
     <div className="flex justify-center items-center h-screen bg-white">
 
@@ -118,5 +127,6 @@ className="h-12 text-lg placeholder:text-gray-460"
 </div>
       </div>
     </div>
+</>
   );
 }
