@@ -148,16 +148,17 @@ tabIndex={-1}
           <div className="absolute right-0 mt-2 bg-white border shadow-lg rounded-lg w-32">
             <button
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => (window.location.href = '/matches')}
+              onClick={() => (window.location.href = '/requests')}
             >
-              Matches
+              收到的申请
             </button>
             <button
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => (window.location.href = '/requests')}
+              onClick={() => (window.location.href = '/matches')}
             >
-              申请
+              好友个人信息
             </button>
+
 <button
   className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
   onClick={handleSetPassword}

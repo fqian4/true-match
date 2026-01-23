@@ -59,7 +59,7 @@ export default function LoginPage() {
 
     <div className="flex justify-center items-center h-screen bg-white">
       <div className="w-full max-w-lg flex flex-col gap-6 px-4">
-<h1 className="text-xl font-normal text-center">登录</h1>
+<h1 className="text-xl font-normal text-center"></h1>
 <div className="flex items-center gap-3">
           <Input
             placeholder="请输入微信号"

@@ -82,9 +82,9 @@ if (error) {
 
   return (
 <>
-<div className="fixed top-4 right-4 z-50">
+<div className="fixed top-4 right-6 z-50">
   <button
-    className="text-sm text-gray-500 hover:text-gray-800 transition-colors duration-200"
+    className="text-sm text-black hover:text-black transition-colors duration-200"
     onClick={() => router.push('/login')}
   >
     登录
@@ -95,7 +95,7 @@ if (error) {
 
       <div className="w-full max-w-lg flex flex-col gap-6 px-4">
 
-<h1 className="text-xl font-normal text-center">TrueMatch</h1>
+<h1 className="text-xl font-normal text-center"></h1>
 
 <div className="flex items-center gap-3">
           <Input
