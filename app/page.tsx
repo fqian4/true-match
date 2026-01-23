@@ -156,7 +156,7 @@ tabIndex={-1}
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => (window.location.href = '/matches')}
             >
-              好友个人信息
+              好友信息
             </button>
 
 <button

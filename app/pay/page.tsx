@@ -16,7 +16,7 @@ export default function PayPage() {
         alt="付款二维码"
         className="mb-4"
       />
-<p className="mb-4">请扫码支付200元完成后点击已支付按钮（将添加对方私人微信）</p>
+<p className="mb-4">请扫码支付200元完成后点击已支付按钮（添加私人微信）</p>
       <button
         onClick={() => router.push('/')}
         className="bg-green-500 text-white px-6 py-2 rounded"
