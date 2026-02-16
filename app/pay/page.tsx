@@ -2,11 +2,15 @@
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
+
 export default function PayPage() {
   const router = useRouter();
 
   return (
     <div className="flex flex-col items-center p-6">
+
+
+
       <h1 className="text-xl font-bold mb-4"></h1>
 
       <Image

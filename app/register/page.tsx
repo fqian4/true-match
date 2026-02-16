@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
-
+import LobsterIcon from '@/components/LobsterIcon';
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -93,17 +93,24 @@ if (error) {
 
     <div className="flex justify-center items-center h-screen bg-white">
 
-      <div className="w-full max-w-lg flex flex-col gap-6 px-4">
 
-<h1 className="text-xl font-normal text-center"></h1>
-
-<div className="flex items-center gap-3">
-          <Input
-            placeholder="输入微信号"
+<div className="relative">
+          <input
+            placeholder="填微信号/手机号 (可被添加), 可上传微信头像"
             value={wechatId}
             onChange={(e) => setWechatId(e.target.value)}
-className="h-12 text-lg placeholder:text-gray-460"
+className="
+  placeholder: text-sm text-gray-460
+  border border-gray-300
+  px-4 py-2
+  rounded-md
+  focus:border-red-500
+  transition: all 0.3s ease
+  outline-none
+  "
           />
+
+
 <input
   id="avatarUpload"
   type="file"
@@ -112,20 +119,24 @@ className="h-12 text-lg placeholder:text-gray-460"
   onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
 />
 
-{/* 圆形灰色上传按钮，无边框 */}
-<button
-  type="button"
-  onClick={() => document.getElementById('avatarUpload')?.click()}
-  className="w-9 h-9 flex-shrink-0 flex items-center justify-center rounded-full bg-gray-100 text-gray text-xl"
+<label
+  htmlFor="avatarUpload"
+  className="
+absolute right-3 top-1/2 transform -translate-y-1/2
+cursor-pointer
+    select-none
+  "
 >
   +
-</button>
+</label>
+</div>
+
           <Button onClick={handleRegister} disabled={loading}>
             {loading ? '提交中…' : '注册'}
 
           </Button>
-</div>
-      </div>
+
+
     </div>
 </>
   );

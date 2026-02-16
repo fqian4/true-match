@@ -177,7 +177,7 @@ tabIndex={-1}
 
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12">
       {users.map((u) => (
-        <Card key={u.id} className="p-4 flex flex-col items-center">
+        <Card key={u.id} className="p-4 flex flex-col items-center border border-gray-200 shadow-none bg-white">
           <img
             src={u.avatar_url}
             className="w-24 h-24 rounded-full object-cover mb-3 border"
@@ -193,16 +193,24 @@ tabIndex={-1}
               : '***'}
           </p>
 {u.douyin && (
-  <p className="text-sm text-gray-500 mb-2">
-    抖音：{u.douyin}
+  <p className="text-sm text-gray-600">
+    抖音 {u.douyin}
   </p>
 )}
 
 <div className="flex gap-3 mt-2">
-  <Button size="sm" onClick={() => sendRequest(u.id)}>
+  <Button
+variant="link"
+size="sm"
+className="text-red-500 hover:text-red-700 cursor-pointer"
+onClick={() => sendRequest(u.id)}>
     发申请
   </Button>
-  <Button size="sm" onClick={() => payRequest(u.id)}>
+  <Button
+variant="link"
+size="sm"
+className="text-red-500 hover:text-red-700 cursor-pointer"
+onClick={() => payRequest(u.id)}>
     付费加
   </Button>
 </div>
