@@ -5,7 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
-import LobsterIcon from '@/components/LobsterIcon';
+import { ArrowRight } from "lucide-react";
+import { Plus, PlusCircle, ListPlus, CalendarPlus } from "lucide-react";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
-    if (!wechatId || !avatarFile) {
+    if (!wechatId) {
       alert('请填写微信号并上传头像');
       return;
     }
@@ -33,6 +34,8 @@ if (existUser) {
 }
 
     // 上传头像到 Supabase Storage
+let avatarUrl = null;
+  if (avatarFile) {
     const fileExt = avatarFile.name.split('.').pop();
     const fileName = `${Date.now()}.${fileExt}`;
     const { error: uploadError } = await supabase.storage
@@ -45,7 +48,8 @@ if (existUser) {
       return;
     }
 
-    const avatarUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${fileName}`;
+    avatarUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${fileName}`;
+}
 
     // 插入用户数据
     const { error } = await supabase
@@ -83,33 +87,20 @@ if (error) {
   return (
 <>
 <div className="fixed top-4 right-6 z-50">
-  <button
-    className="text-sm text-black hover:text-black transition-colors duration-200"
+  <Button
+  variant="ghost"
+  className="cursor-pointer text-[#ef4b58] bg-transparent border border-[rgba(15,23,42,.16)] shadow-none text-sm"
     onClick={() => router.push('/login')}
   >
     登录
-  </button>
+  </Button>
 </div>
 
-    <div className="flex justify-center items-center h-screen bg-white">
 
 
-<div className="relative">
-          <input
-            placeholder="填微信号/手机号 (可被添加), 可上传微信头像"
-            value={wechatId}
-            onChange={(e) => setWechatId(e.target.value)}
-className="
-  placeholder: text-sm text-gray-460
-  border border-gray-300
-  px-4 py-2
-  rounded-md
-  focus:border-red-500
-  transition: all 0.3s ease
-  outline-none
-  "
-          />
+<div className="flex flex-col justify-center items-center space-x-2 h-screen bg-[#f6fdfe]">
 
+<div className="latest-post-card">
 
 <input
   id="avatarUpload"
@@ -117,27 +108,29 @@ className="
   accept="image/*"
   className="hidden"
   onChange={(e) => setAvatarFile(e.target.files?.[0] ?? null)}
-/>
-
+/> 
 <label
   htmlFor="avatarUpload"
-  className="
-absolute right-3 top-1/2 transform -translate-y-1/2
-cursor-pointer
-    select-none
-  "
+  className="latest-post-badge cursor-pointer select-none"
 >
-  +
+  <Plus size={14} strokeWidth={3}/>
 </label>
+
+<input type="text" placeholder="输入微信号/手机号，可上传微信头像"
+            value={wechatId}
+            onChange={(e) => setWechatId(e.target.value)}
+/>
+
+<span className="latest-post-link cursor-pointer"
+onClick={handleRegister}
+><ArrowRight size={14} /></span>
+
+
+
 </div>
 
-          <Button onClick={handleRegister} disabled={loading}>
-            {loading ? '提交中…' : '注册'}
+</div>
 
-          </Button>
-
-
-    </div>
 </>
   );
 }

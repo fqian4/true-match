@@ -4,6 +4,80 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+.latest-post {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.latest-post-card {
+  display: flex;
+  width: 420px;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  background: rgba(255, 255, 255, .95);
+
+  text-decoration: none;
+  transition: all .3s ease;
+  border: 1px solid rgba(15, 23, 42, .16);
+
+
+}
+
+.latest-post-card:hover {
+  border-color: #ff6b6b;
+  box-shadow: 0 4px 20px rgba(255,107,107,0.3);
+}
+
+.latest-post-card input {
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: .9rem;
+  color: #0b1220;
+
+  flex: 1;
+  min-width: 0;
+}
+
+.latest-post-card input::placeholder {
+  color: #475569;
+}
+
+.latest-post-badge {
+  padding: 3px 8px;
+  border-radius: 12px;
+
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing:.5px;
+  background: #ff6b6b;
+}
+
+.latest-post-title {
+  font-size: .9rem;
+  color: #0b1220;
+}
+
+.latest-post-link {
+
+  transition: color .2s;
+  color: #5f7290;
+
+}
+
+.latest-post-card:hover .latest-post-link {
+  color: #ef4b58;
+}
+
+
+
 .lobster-icon {
   margin-bottom: 24px;
   animation: float 4s ease-in-out infinite;
