@@ -70,6 +70,26 @@ const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>, photoFi
   localStorage.setItem('currentUser', JSON.stringify(updatedUser));
 };
 
+const handleDeletePhoto = async (photoField: 'photo1' | 'photo2' | 'photo3') => {
+  if (!currentUser) return;
+
+  if (photoField === 'photo1') setPhoto1('');
+  else if (photoField === 'photo2') setPhoto2('');
+  else if (photoField === 'photo3') setPhoto3('');
+
+  const { error } = await supabase
+    .from('users')
+    .update({ [photoField]: '' })
+    .eq('id', currentUser.id);
+
+  if (error) alert('删除失败');
+  else {
+    const updatedUser = { ...currentUser, [photoField]: '' };
+    setCurrentUser(updatedUser);
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+  }
+};
+
 const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   if (!currentUser) return;
 
@@ -108,6 +128,29 @@ const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
   setCurrentUser(updatedUser);
   localStorage.setItem('currentUser', JSON.stringify(updatedUser));
 };
+
+const handleDeleteAvatar = async () => {
+  if (!currentUser) return;
+
+  // 清空状态
+  setAvatarUrl('');
+
+  // 更新数据库
+  const { error } = await supabase
+    .from('users')
+    .update({ avatar_url: '' })
+    .eq('id', currentUser.id);
+
+  if (error) {
+    alert('删除失败');
+  } else {
+    const updatedUser = { ...currentUser, avatar_url: '' };
+    setCurrentUser(updatedUser);
+    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+  }
+};
+
+
 
   const logout = () => {
     localStorage.removeItem('currentUser');
@@ -284,21 +327,32 @@ const filteredUsers = users.filter((u) => {
     showProfile ? "max-h-[400px] opacity-100 mt-4" : "max-h-0 opacity-0"
   }`}
 >
-<Card className="p-6 px-24 flex flex-col items-start rounded-3xl border-2 border-dashed border-[#a6acc4] shadow-none bg-white w-1/2">
+<Card className="p-6 px-24 flex flex-col items-start border-2 shadow-none bg-white w-1/2">
 
-<div className="flex items-center gap-4">
+<div className="flex items-start gap-4">
   
-<div className="mb-6">
-    
-    <label className="block border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:bg-gray-50 transition">
+<div className="mt-2 mb-8">
+<div className="mb-2 text-sm font-medium">
+    头像
+  </div>
+
+<div className="text-xs text-gray-500 mb-3">
+    可选择微信头像
+  </div>
+
+    <label className="w-36 h-24 flex items-center justify-center block border-2 border-[#a6acc4] border-dashed rounded-md cursor-pointer hover:bg-gray-200 transition">
       {avatarUrl ? (
+
         <img
           src={avatarUrl}
-          className="w-20 h-20 rounded-full mx-auto object-cover"
+          className="w-20 h-20 mx-auto object-cover"
+ 
         />
+
+
       ) : (
-        <div className="text-gray-400 text-sm">
-          点击上传头像
+        <div className="text-gray-400 text-xs">
+          上传头像
         </div>
       )}
 
@@ -309,15 +363,36 @@ const filteredUsers = users.filter((u) => {
         className="hidden"
       />
     </label>
+{avatarUrl && (
+ <button
+          type="button"
+          className="text-lg cursor-pointer"
+          onClick={handleDeleteAvatar}
+        >
+          ×
+        </button>
+)}
+  </div>
+
+<div className="mt-2">
+
+<div className="mb-2 text-sm font-medium">
+    更多
+  </div>
+
+<div className="text-xs text-gray-500 mb-3">
+    可选择朋友圈、抖音、小红书截图 profile 或照片等
   </div>
 
 <div className="flex gap-2 mb-6">
+
   {['photo1','photo2','photo3'].map((field, index) => {
     const url = field === 'photo1' ? photo1 : field === 'photo2' ? photo2 : photo3;
     return (
-      <label key={field} className="w-16 h-16 border-2 border-dashed rounded-xl cursor-pointer overflow-hidden flex items-center justify-center hover:bg-gray-50 transition">
+<div key={field} className="">
+      <label key={field} className="w-24 h-24 flex items-center justify-center block border-2 border-[#a6acc4] border-dashed rounded-md cursor-pointer hover:bg-gray-200 transition">
         {url ? (
-          <img src={url} className="w-full h-full object-cover" />
+          <img src={url} className="w-20 h-20 mx-auto object-cover" />
         ) : (
           <span className="text-gray-400 text-xs">上传</span>
         )}
@@ -327,18 +402,30 @@ const filteredUsers = users.filter((u) => {
           className="hidden"
           onChange={(e) => handlePhotoChange(e, field as 'photo1'|'photo2'|'photo3')}
         />
+
       </label>
+{url && (
+ <button
+          type="button"
+          className="text-lg cursor-pointer"
+          onClick={() => handleDeletePhoto(field as 'photo1'|'photo2'|'photo3')}
+        >
+          ×
+        </button>
+)}
+</div>
     );
   })}
+
 </div>
  </div>
-
-
+  </div>
+{/*
   <input
     value={wechatId}
     onChange={(e) => setWechatId(e.target.value)}
     placeholder="微信号"
-    className="border rounded-md px-3 py-2 text-xs mb-3 w-full border-[#878dab] placeholder-[#5f69a1]"
+    className="border rounded-md px-3 py-2 text-xs mb-8 w-full border-[#878dab] placeholder-[#5f69a1]"
   />
 
 
@@ -349,7 +436,7 @@ const filteredUsers = users.filter((u) => {
   >
     {saving ? "保存中..." : "保存"}
   </Button>
-
+*/}
 </Card>
 </div>
 
@@ -420,6 +507,7 @@ tabIndex={-1}
 
       {filteredUsers.map((u) => (
         <Card key={u.id} className="p-12 flex flex-col items-start rounded-3xl border-none shadow-none bg-white">
+{u.avatar_url && (
           <img
             src={u.avatar_url}
             className="w-24 h-24 rounded-full object-cover mb-4 border"
@@ -429,6 +517,7 @@ tabIndex={-1}
   setShowPreview(true);
   }}
           />
+)}
           <p className="font-medium">
             {u.wechat_id
               ? u.wechat_id.charAt(0) + '***'
