@@ -191,7 +191,7 @@ setPhoto3(parsedUser.photo3 || '');
         .from('users')
         .select('*')
         .neq('id', parsedUser.id) // 排除自己
-.order('rank', { ascending: true, nullsLast: true });
+.order('rank', { ascending: true });
       setUsers(allUsers ?? []);
     };
     fetchUsers();
