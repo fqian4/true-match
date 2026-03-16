@@ -558,11 +558,13 @@ onClick={() => payRequest(u.id)}>
           className="fixed inset-0 bg-black/70 flex items-center justify-center z-50"
           onClick={() => setShowPreview(false)}
         >
+{previewImage && (
           <img
             src={previewImage}
             className="max-w-[90%] max-h-[90%] rounded-lg"
             onClick={(e) => e.stopPropagation()}
           />
+)}
         </div>
       )}
     </div>
