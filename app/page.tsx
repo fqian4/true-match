@@ -520,6 +520,14 @@ onClick={() => {
         value={xhs}
         onChange={(e) => setXhs(e.target.value)}
         placeholder="小红书"
+        className="w-full border rounded-lg p-2 mb-3 text-sm"
+      />
+
+      <input
+        type="text"
+        value={xhs}
+        onChange={(e) => setXhs(e.target.value)}
+        placeholder="无畏契约"
         className="w-full border rounded-lg p-2 mb-5 text-sm"
       />
 
