@@ -29,7 +29,8 @@ const [photo3, setPhoto3] = useState('');
 
 const [showProfile, setShowProfile] = useState(false);
 
-
+const [showAddModal, setShowAddModal] = useState(false);
+const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
 
   const menuRef = useRef<HTMLDivElement>(null);
@@ -279,7 +280,7 @@ window.location.href = '/pay'
 const handleSetPassword = async () => {
   if (!currentUser) return;
 
-  const pwd = prompt("请输入新密码（无格式限制）：");
+  const pwd = prompt("请输入新密码（暂无格式限制）：");
 
   if (pwd === null) return; // 用户取消
   if (pwd.trim() === "") {
@@ -313,7 +314,7 @@ const filteredUsers = users.filter((u) => {
 <div className="">
   <input
     type="text"
-    placeholder="搜索抖音 / 小红书号"
+    placeholder="搜索"
     value={searchTerm}
     onChange={(e) => setSearchTerm(e.target.value)}
     className="w-2/3 p-2 px-4 rounded-xl text-sm bg-white outline-none"
@@ -322,140 +323,14 @@ const filteredUsers = users.filter((u) => {
 
 
 
-<div
-  className={`overflow-hidden transition-all duration-500 ease-in-out ${
-    showProfile ? "max-h-[400px] opacity-100 mt-4" : "max-h-0 opacity-0"
-  }`}
->
-<Card className="p-6 px-24 flex flex-col items-start border-2 shadow-none bg-white w-1/2">
 
-<div className="flex items-start gap-4">
-  
-<div className="mt-2 mb-8">
-<div className="mb-2 text-sm font-medium">
-    头像
-  </div>
-
-<div className="text-xs text-gray-500 mb-3">
-    可选择微信头像
-  </div>
-
-    <label className="w-36 h-24 flex items-center justify-center block border-2 border-[#a6acc4] border-dashed rounded-md cursor-pointer hover:bg-gray-200 transition">
-      {avatarUrl ? (
-
-        <img
-          src={avatarUrl}
-          className="w-20 h-20 mx-auto object-cover"
- 
-        />
-
-
-      ) : (
-        <div className="text-gray-400 text-xs">
-          上传头像
-        </div>
-      )}
-
-      <input
-        type="file"
-        accept="image/*"
-        onChange={handleAvatarChange}
-        className="hidden"
-      />
-    </label>
-{avatarUrl && (
- <button
-          type="button"
-          className="text-lg cursor-pointer"
-          onClick={handleDeleteAvatar}
-        >
-          ×
-        </button>
-)}
-  </div>
-
-<div className="mt-2">
-
-<div className="mb-2 text-sm font-medium">
-    更多
-  </div>
-
-<div className="text-xs text-gray-500 mb-3">
-    可选择朋友圈、抖音、小红书截图 profile 或照片等
-  </div>
-
-<div className="flex gap-2 mb-6">
-
-  {['photo1','photo2','photo3'].map((field, index) => {
-    const url = field === 'photo1' ? photo1 : field === 'photo2' ? photo2 : photo3;
-    return (
-<div key={field} className="">
-      <label key={field} className="w-24 h-24 flex items-center justify-center block border-2 border-[#a6acc4] border-dashed rounded-md cursor-pointer hover:bg-gray-200 transition">
-        {url ? (
-          <img src={url} className="w-20 h-20 mx-auto object-cover" />
-        ) : (
-          <span className="text-gray-400 text-xs">上传</span>
-        )}
-        <input
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={(e) => handlePhotoChange(e, field as 'photo1'|'photo2'|'photo3')}
-        />
-
-      </label>
-{url && (
- <button
-          type="button"
-          className="text-lg cursor-pointer"
-          onClick={() => handleDeletePhoto(field as 'photo1'|'photo2'|'photo3')}
-        >
-          ×
-        </button>
-)}
-</div>
-    );
-  })}
-
-</div>
- </div>
-  </div>
-{/*
-  <input
-    value={wechatId}
-    onChange={(e) => setWechatId(e.target.value)}
-    placeholder="微信号"
-    className="border rounded-md px-3 py-2 text-xs mb-8 w-full border-[#878dab] placeholder-[#5f69a1]"
-  />
-
-
-  <Button
-    onClick={saveProfile}
-    disabled={saving}
-    className="cursor-pointer bg-[#2d60d7] text-xs"
-  >
-    {saving ? "保存中..." : "保存"}
-  </Button>
-*/}
-</Card>
-</div>
 
 
 <div className="fixed top-3 right-3 z-50 flex items-center gap-3">
 
 
 
-<button
-  className="w-9 h-9 flex items-center justify-center rounded-lg bg-white border-none cursor-pointer"
-  onClick={() => {
-    setShowProfile(!showProfile);
-  }}
->
-  <div className="relative w-3.5 h-3.5">
-    <span className="absolute left-1/2 top-0 w-[2px] h-full bg-black -translate-x-1/2"></span>
-    <span className="absolute top-1/2 left-0 h-[2px] w-full bg-black -translate-y-1/2"></span>
-  </div>
-</button>
+
 
 <div className="relative" ref={menuRef}>
         <button
@@ -489,7 +364,7 @@ tabIndex={-1}
   className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
   onClick={handleSetPassword}
 >
-  密码设置
+  设置密码
 </button>
 <button
   className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer"
@@ -531,7 +406,7 @@ tabIndex={-1}
 
 {u.xhs && (
   <p className="font-small text-sm mt-2">
-    小红书号：{u.xhs}
+    小红书：{u.xhs}
   </p>
 )}
 
@@ -539,15 +414,13 @@ tabIndex={-1}
   <Button
 variant="outline"
 className="flex-1 cursor-pointer"
-onClick={() => sendRequest(u.id)}>
-    发申请
+onClick={() => {
+      setSelectedUserId(u.id);
+      setShowAddModal(true);
+    }}>
+    加好友
   </Button>
-  <Button
-variant="outline"
-className="flex-1 cursor-pointer"
-onClick={() => payRequest(u.id)}>
-    付费加 
-  </Button>
+
 </div>
         </Card>
       ))}
@@ -567,6 +440,58 @@ onClick={() => payRequest(u.id)}>
 )}
         </div>
       )}
+
+{showAddModal && (
+  <div
+    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    onClick={() => setShowAddModal(false)}
+  >
+    <div
+      className="bg-white rounded-2xl p-6 w-72"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h3 className="text-center font-medium mb-4">
+        选择添加方式
+      </h3>
+
+      <div className="flex flex-col gap-3">
+        <Button
+          variant="outline"
+          onClick={() => {
+            if (selectedUserId) {
+              sendRequest(selectedUserId);
+            }
+            setShowAddModal(false);
+          }}
+        >
+          加好友
+        </Button>
+
+        <Button
+          variant="outline"
+          onClick={() => {
+            if (selectedUserId) {
+              payRequest(selectedUserId);
+            }
+            setShowAddModal(false);
+          }}
+        >
+          付费加
+        </Button>
+
+        <Button
+          variant="ghost"
+          onClick={() => setShowAddModal(false)}
+        >
+          取消
+        </Button>
+      </div>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 }
+

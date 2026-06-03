@@ -13,7 +13,7 @@
 
 .latest-post-card {
   display: flex;
-  width: 420px;
+  width: 100%;
   align-items: center;
   gap: 12px;
   padding: 10px 20px;
@@ -45,7 +45,7 @@
 }
 
 .latest-post-card input::placeholder {
-  color: #475569;
+  color: #94A3B8;
 }
 
 .latest-post-badge {
@@ -78,80 +78,7 @@
 
 
 
-.lobster-icon {
-  margin-bottom: 24px;
-  animation: float 4s ease-in-out infinite;
-  transition: transform .3s ease;
-}
 
-.lobster-icon:hover {
-  transform: scale(1.1);
-  animation: none;
-}
-
-.lobster-icon svg {
-  width: 120px;
-  height: 120px;
-  filter: drop-shadow(0 0 20px rgba(255,77,77,.4));
-  transition: filter .3s ease;
-}
-
-.lobster-icon:hover svg {
-  filter: drop-shadow(0 0 30px rgba(0,229,204,.6));
-}
-
-/* 漂浮 */
-@keyframes float {
-  0%,100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-/* 眼睛闪 */
-.eye-glow {
-  fill: #00e5cc;
-  animation: blink 3s infinite;
-}
-
-@keyframes blink {
-  0%,90%,100% { opacity: 1; }
-  95% { opacity: .3; }
-}
-
-/* 触角摆动 */
-.antenna {
-  stroke: #ff4d4d;
-  stroke-width: 2;
-  stroke-linecap: round;
-  animation: wiggle 2s ease-in-out infinite;
-  transform-origin: center;
-}
-
-@keyframes wiggle {
-  0%,100% { transform: rotate(0); }
-  25% { transform: rotate(-3deg); }
-  75% { transform: rotate(3deg); }
-}
-
-/* 钳子 */
-.claw-left {
-  transform-origin: right center;
-  animation: clawSnap 4s infinite;
-}
-
-.claw-right {
-  transform-origin: left center;
-  animation: clawSnap 4s infinite .2s;
-}
-
-@keyframes clawSnap {
-  0%,85%,100% { transform: rotate(0); }
-  90% { transform: rotate(-8deg); }
-}
-
-/* 眼白 */
-.eye {
-  fill: #050810;
-}
 
 body {
   @apply bg-gray-50 text-gray-800 font-sans;

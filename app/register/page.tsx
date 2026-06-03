@@ -98,9 +98,9 @@ if (error) {
 
 
 
-<div className="flex flex-col justify-center items-center space-x-2 h-screen bg-[#f6fdfe]">
+<div className="flex flex-col justify-center items-center h-screen bg-[#f6fdfe] px-4">
 
-<div className="latest-post-card">
+<div className="latest-post-card w-full max-w-[420px]">
 
 <input
   id="avatarUpload"
@@ -116,7 +116,7 @@ if (error) {
   <Plus size={14} strokeWidth={3}/>
 </label>
 
-<input type="text" placeholder="输入微信号/手机号，可上传微信头像"
+<input type="text" placeholder="请填写微信号，上传微信头像"
             value={wechatId}
             onChange={(e) => setWechatId(e.target.value)}
 />
