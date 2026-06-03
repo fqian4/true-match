@@ -360,6 +360,17 @@ tabIndex={-1}
               好友
             </button>
 
+    <button
+      className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+      onClick={() => {
+        setShowProfile(true);
+        setMenuOpen(false);
+      }}
+    >
+      个人资料
+    </button>
+
+
 <button
   className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
   onClick={handleSetPassword}
@@ -399,13 +410,13 @@ tabIndex={-1}
               : '***'}
           </p>
 {u.douyin && (
-  <p className="font-small text-sm mt-2">
+  <p className="font-small mt-2">
     抖音：{u.douyin}
   </p>
 )}
 
 {u.xhs && (
-  <p className="font-small text-sm mt-2">
+  <p className="font-small mt-2">
     小红书：{u.xhs}
   </p>
 )}
@@ -440,6 +451,101 @@ onClick={() => {
 )}
         </div>
       )}
+
+
+{showProfile && (
+  <div
+    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+    onClick={() => setShowProfile(false)}
+  >
+    <div
+      className="bg-white rounded-2xl p-6 w-[340px]"
+      onClick={(e) => e.stopPropagation()}
+    >
+      <h3 className="text-center text-lg font-medium mb-5">
+        编辑个人资料
+      </h3>
+
+      {/* 头像 */}
+      <div className="flex flex-col items-center mb-5">
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt="avatar"
+            className="w-24 h-24 rounded-full object-cover border"
+          />
+        ) : (
+          <div className="w-24 h-24 rounded-full border flex items-center justify-center text-gray-400">
+            无头像
+          </div>
+        )}
+
+        <input
+          id="avatarInput"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleAvatarChange}
+        />
+
+        <label
+          htmlFor="avatarInput"
+          className="mt-3 text-sm text-blue-500 cursor-pointer"
+        >
+          更换头像
+        </label>
+
+        {avatarUrl && (
+          <button
+            className="mt-2 text-sm text-red-500"
+            onClick={handleDeleteAvatar}
+          >
+            删除头像
+          </button>
+        )}
+      </div>
+
+      {/* 抖音 */}
+      <input
+        type="text"
+        value={douyin}
+        onChange={(e) => setDouyin(e.target.value)}
+        placeholder="抖音"
+        className="w-full border rounded-lg p-2 mb-3 text-sm"
+      />
+
+      {/* 小红书 */}
+      <input
+        type="text"
+        value={xhs}
+        onChange={(e) => setXhs(e.target.value)}
+        placeholder="小红书"
+        className="w-full border rounded-lg p-2 mb-5 text-sm"
+      />
+
+      <div className="flex gap-3">
+        <Button
+          variant="outline"
+          className="flex-1"
+          onClick={() => setShowProfile(false)}
+        >
+          取消
+        </Button>
+
+        <Button
+          className="flex-1"
+          onClick={async () => {
+            await saveProfile();
+            setShowProfile(false);
+          }}
+        >
+          保存
+        </Button>
+      </div>
+    </div>
+  </div>
+)}
+
 
 {showAddModal && (
   <div
