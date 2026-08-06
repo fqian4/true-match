@@ -102,6 +102,7 @@ if (error) {
 
 <div className="latest-post-card w-full max-w-[420px]">
 
+{/*
 <input
   id="avatarUpload"
   type="file"
@@ -115,6 +116,7 @@ if (error) {
 >
   <Plus size={14} strokeWidth={3}/>
 </label>
+*/}
 
 <input type="text" placeholder="请填写微信号，上传微信头像"
             value={wechatId}

@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { supabase } from '@/lib/supabaseClient';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-
+import { Plus } from "lucide-react";
 
 
 
@@ -22,10 +22,8 @@ const [douyin, setDouyin] = useState('');
 const [xhs, setXhs] = useState('');
 const [saving, setSaving] = useState(false);
 const [avatarUrl, setAvatarUrl] = useState('');
-const [photo1, setPhoto1] = useState('');
-const [photo2, setPhoto2] = useState('');
-const [photo3, setPhoto3] = useState('');
-
+const [photos, setPhotos] = useState<string[]>([]);
+const [photoInputKey, setPhotoInputKey] = useState(0);
 
 const [showProfile, setShowProfile] = useState(false);
 
@@ -35,60 +33,85 @@ const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
 
   const menuRef = useRef<HTMLDivElement>(null);
 
-const handlePhotoChange = async (e: React.ChangeEvent<HTMLInputElement>, photoField: 'photo1' | 'photo2' | 'photo3') => {
+const handlePhotoChange = async (
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
   if (!currentUser) return;
 
   const file = e.target.files?.[0];
   if (!file) return;
 
-  const filePath = `photos/${currentUser.id}-${photoField}-${Date.now()}`;
+  // 最多4张
+  if (photos.length >= 4) {
+    alert("最多上传4张");
+    return;
+  }
 
-  const { error: uploadError } = await supabase.storage
-    .from('avatars')
+  const filePath = `${currentUser.id}/photo-${Date.now()}`;
+
+  const { error } = await supabase.storage
+    .from("avatars")
     .upload(filePath, file);
 
-  if (uploadError) {
+  if (error) {
     alert("上传失败");
     return;
   }
 
-  const { data } = supabase.storage.from('avatars').getPublicUrl(filePath);
+  const { data } = supabase.storage
+    .from("avatars")
+    .getPublicUrl(filePath);
+
   const url = data.publicUrl;
 
-  // 更新对应状态
-  if (photoField === 'photo1') setPhoto1(url);
-  else if (photoField === 'photo2') setPhoto2(url);
-  else if (photoField === 'photo3') setPhoto3(url);
+  const newPhotos = [...photos, url];
 
-  // 保存到数据库
+  setPhotos(newPhotos);
+
   await supabase
-    .from('users')
-    .update({ [photoField]: url })
-    .eq('id', currentUser.id);
+    .from("users")
+    .update({
+      photos: newPhotos,
+    })
+    .eq("id", currentUser.id);
 
-  const updatedUser = { ...currentUser, [photoField]: url };
+  const updatedUser = {
+    ...currentUser,
+    photos: newPhotos,
+  };
+
   setCurrentUser(updatedUser);
-  localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+  localStorage.setItem(
+    "currentUser",
+    JSON.stringify(updatedUser)
+  );
+setPhotoInputKey(k => k + 1);
 };
 
-const handleDeletePhoto = async (photoField: 'photo1' | 'photo2' | 'photo3') => {
+const handleDeletePhoto = async (index: number) => {
   if (!currentUser) return;
 
-  if (photoField === 'photo1') setPhoto1('');
-  else if (photoField === 'photo2') setPhoto2('');
-  else if (photoField === 'photo3') setPhoto3('');
+  const newPhotos = photos.filter((_, i) => i !== index);
 
-  const { error } = await supabase
-    .from('users')
-    .update({ [photoField]: '' })
-    .eq('id', currentUser.id);
+  setPhotos(newPhotos);
 
-  if (error) alert('删除失败');
-  else {
-    const updatedUser = { ...currentUser, [photoField]: '' };
-    setCurrentUser(updatedUser);
-    localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-  }
+  await supabase
+    .from("users")
+    .update({
+      photos: newPhotos,
+    })
+    .eq("id", currentUser.id);
+
+  const updatedUser = {
+    ...currentUser,
+    photos: newPhotos,
+  };
+
+  setCurrentUser(updatedUser);
+  localStorage.setItem(
+    "currentUser",
+    JSON.stringify(updatedUser)
+  );
 };
 
 const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -181,9 +204,7 @@ setWechatId(parsedUser.wechat_id || '');
 setDouyin(parsedUser.douyin || '');
 setXhs(parsedUser.xhs || '');
 setAvatarUrl(parsedUser.avatar_url || '');
-setPhoto1(parsedUser.photo1 || '');
-setPhoto2(parsedUser.photo2 || '');
-setPhoto3(parsedUser.photo3 || '');
+setPhotos(parsedUser.photos || []);
 
 
     // 查询其他用户
@@ -392,11 +413,51 @@ tabIndex={-1}
 
 
       {filteredUsers.map((u) => (
-        <Card key={u.id} className="p-12 flex flex-col items-start rounded-3xl border-none shadow-none bg-white">
-{u.avatar_url && (
+        <Card key={u.id} className="p-6 rounded-lg border-none shadow-none bg-white">
+
+<div className="flex items-center gap-4 mb-4">
+
+{u.douyin && (
+  <p className="font-small mb-0">
+    抖音号：{u.douyin}
+  </p>
+)}
+
+{u.xhs && (
+  <p className="mb-0">
+    小红书：{u.xhs}
+  </p>
+)}
+
+         
+
+</div>
+
+
+
+{u.photos?.length > 0 && (
+    <div className="flex flex-wrap gap-2">
+      {u.photos.map((photo: string, index: number) => (
+        <img
+          key={index}
+          src={photo}
+          className="w-18 h-18 object-cover rounded-lg cursor-pointer mb-4"
+          onClick={() => {
+            setPreviewImage(photo);
+            setShowPreview(true);
+          }}
+        />
+      ))}
+    </div>
+  )}
+
+
+<div className="flex items-start gap-6">
+
+{(!u.photos || u.photos.length === 0) && u.avatar_url && (
           <img
             src={u.avatar_url}
-            className="w-24 h-24 rounded-full object-cover mb-4 border"
+            className="w-18 h-18 object-cover rounded-lg mb-4 border"
             alt="avatar"
   onClick={() => {
   setPreviewImage(u.avatar_url);
@@ -404,35 +465,30 @@ tabIndex={-1}
   }}
           />
 )}
-          <p className="font-medium">
+
+
+
+</div>
+
+<div className="flex items-center gap-4">
+
+ <p className="font-medium mb-0">
             {u.wechat_id
               ? u.wechat_id.charAt(0) + '***'
               : '***'}
           </p>
-{u.douyin && (
-  <p className="font-small mt-2">
-    抖音：{u.douyin}
-  </p>
-)}
 
-{u.xhs && (
-  <p className="font-small mt-2">
-    小红书：{u.xhs}
-  </p>
-)}
-
-<div className="flex gap-3 mt-4">
-  <Button
-variant="outline"
-className="flex-1 cursor-pointer"
-onClick={() => {
-      setSelectedUserId(u.id);
-      setShowAddModal(true);
-    }}>
-    加好友
-  </Button>
+<Button
+  variant="ghost"
+  className="w-fit cursor-pointer bg-gray-100 text-gray-600 border-0 shadow-none hover:bg-gray-200 hover:shadow-none"
+>
+  <Plus className="h-6 w-6 stroke-[2]" />
+</Button>
 
 </div>
+
+
+
         </Card>
       ))}
     </div>
@@ -505,6 +561,9 @@ onClick={() => {
         )}
       </div>
 
+
+
+
       {/* 抖音 */}
       <input
         type="text"
@@ -530,6 +589,56 @@ onClick={() => {
         placeholder="无畏契约"
         className="w-full border rounded-lg p-2 mb-5 text-sm"
       />
+
+<div className="mt-5">
+  <p className="mb-2 text-sm font-medium">
+    照片（最多4张）
+  </p>
+
+  <div className="grid grid-cols-2 gap-3">
+
+    {photos.map((photo, index) => (
+      <div
+        key={index}
+        className="relative"
+      >
+        <img
+          src={photo}
+          className="w-full aspect-square rounded-lg object-cover border"
+        />
+
+        <button
+          onClick={() => handleDeletePhoto(index)}
+          className="absolute top-1 right-1 w-6 h-6 rounded-full bg-red-500 text-white"
+        >
+          ×
+        </button>
+      </div>
+    ))}
+
+    {photos.length < 4 && (
+      <>
+
+        <input
+key={photoInputKey}
+          id="photoInput"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handlePhotoChange}
+        />
+
+        <label
+          htmlFor="photoInput"
+          className="border rounded-lg aspect-square flex items-center justify-center cursor-pointer text-3xl text-gray-400"
+        >
+          +
+        </label>
+      </>
+    )}
+
+  </div>
+</div>
 
       <div className="flex gap-3">
         <Button
