@@ -454,12 +454,13 @@ tabIndex={-1}
   )}
 
 <div className="flex items-start justify-between">
+
 <div className="flex items-start gap-6">
 
 {(!u.photos || u.photos.length === 0) && u.avatar_url && (
           <img
             src={u.avatar_url}
-            className="w-18 h-18 object-cover rounded-lg border"
+            className="w-18 h-18 object-cover rounded-lg border mb-4"
             alt="avatar"
   onClick={() => {
   setPreviewImage(u.avatar_url);
@@ -475,6 +476,7 @@ tabIndex={-1}
               ? u.wechat_id.charAt(0) + '***'
               : '***'}
           </p>
+
 </div>
 
 <Button
