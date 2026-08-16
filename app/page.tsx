@@ -301,7 +301,7 @@ window.location.href = '/pay'
 const handleSetPassword = async () => {
   if (!currentUser) return;
 
-  const pwd = prompt("请输入新密码（暂无格式限制）：");
+  const pwd = prompt("请输入新密码：");
 
   if (pwd === null) return; // 用户取消
   if (pwd.trim() === "") {
@@ -396,7 +396,7 @@ tabIndex={-1}
   className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
   onClick={handleSetPassword}
 >
-  设置密码
+  密码
 </button>
 <button
   className="w-full text-left px-4 py-2 hover:bg-red-100 text-red-600 cursor-pointer"
@@ -466,21 +466,25 @@ tabIndex={-1}
           />
 )}
 
-
-
-</div>
-
-<div className="flex items-center gap-4">
-
  <p className="font-medium mb-0">
             {u.wechat_id
               ? u.wechat_id.charAt(0) + '***'
               : '***'}
           </p>
 
+</div>
+
+<div className="flex items-center gap-4">
+
+
+
 <Button
   variant="ghost"
   className="w-fit cursor-pointer bg-gray-100 text-gray-600 border-0 shadow-none hover:bg-gray-200 hover:shadow-none"
+  onClick={() => {
+    setSelectedUserId(u.id);
+    setShowAddModal(true);
+  }}
 >
   <Plus className="h-6 w-6 stroke-[2]" />
 </Button>
