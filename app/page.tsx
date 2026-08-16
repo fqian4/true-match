@@ -453,7 +453,7 @@ tabIndex={-1}
     </div>
   )}
 
-<div className="flex items-start justify-between mb-4">
+<div className="flex items-start justify-between">
 <div className="flex items-start gap-6">
 
 {(!u.photos || u.photos.length === 0) && u.avatar_url && (
