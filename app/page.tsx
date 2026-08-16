@@ -451,13 +451,13 @@ tabIndex={-1}
     </div>
   )}
 
-
+<div className="flex items-start justify-between mb-4">
 <div className="flex items-start gap-6">
 
 {(!u.photos || u.photos.length === 0) && u.avatar_url && (
           <img
             src={u.avatar_url}
-            className="w-18 h-18 object-cover rounded-lg mb-4 border"
+            className="w-18 h-18 object-cover rounded-lg border"
             alt="avatar"
   onClick={() => {
   setPreviewImage(u.avatar_url);
@@ -466,17 +466,14 @@ tabIndex={-1}
           />
 )}
 
- <p className="font-medium mb-4">
+
+
+ <p className="font-medium">
             {u.wechat_id
               ? u.wechat_id.charAt(0) + '***'
               : '***'}
           </p>
-
 </div>
-
-<div className="flex items-center gap-4">
-
-
 
 <Button
   variant="ghost"
@@ -488,6 +485,20 @@ tabIndex={-1}
 >
   <Plus className="h-6 w-6 stroke-[2]" />
 </Button>
+
+
+
+</div>
+
+
+
+
+
+<div className="flex items-center gap-4">
+
+
+
+
 
 </div>
 
