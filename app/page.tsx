@@ -418,7 +418,7 @@ tabIndex={-1}
 <div className="flex items-center gap-4 mb-4">
 
 {u.douyin && (
-  <p className="text-sm text-gray-600 bg-gray-100 mb-0">
+  <p className="text-sm text-gray-700 bg-gray-100 mb-0">
     抖音号：{u.douyin}
   </p>
 )}
@@ -426,7 +426,7 @@ tabIndex={-1}
 
 
 {u.xhs && (
-  <p className="text-sm text-gray-600 mb-0">
+  <p className="text-sm text-gray-700 mb-0">
     小红书：{u.xhs}
   </p>
 )}
@@ -443,7 +443,7 @@ tabIndex={-1}
         <img
           key={index}
           src={photo}
-          className="w-17 h-17 object-cover cursor-pointer mb-4"
+          className="w-16 h-16 object-cover cursor-pointer mb-4"
           onClick={() => {
             setPreviewImage(photo);
             setShowPreview(true);
@@ -586,7 +586,7 @@ tabIndex={-1}
         type="text"
         value={douyin}
         onChange={(e) => setDouyin(e.target.value)}
-        placeholder="抖音"
+        placeholder="抖音号"
         className="w-full border rounded-lg p-2 mb-3 text-sm"
       />
 
@@ -607,7 +607,7 @@ tabIndex={-1}
         className="w-full border rounded-lg p-2 mb-5 text-sm"
       />
 
-<div className="mb-4">
+<div className="mb-2">
   <p className="mb-2 text-sm font-medium">
     照片
   </p>
