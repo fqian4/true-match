@@ -441,7 +441,7 @@ tabIndex={-1}
         <img
           key={index}
           src={photo}
-          className="w-18 h-18 object-cover rounded-lg cursor-pointer mb-4"
+          className="w-16 h-16 object-cover cursor-pointer mb-4"
           onClick={() => {
             setPreviewImage(photo);
             setShowPreview(true);
@@ -457,7 +457,7 @@ tabIndex={-1}
 {(!u.photos || u.photos.length === 0) && u.avatar_url && (
           <img
             src={u.avatar_url}
-            className="w-18 h-18 object-cover rounded-lg border"
+            className="w-16 h-16 object-cover rounded-lg border"
             alt="avatar"
   onClick={() => {
   setPreviewImage(u.avatar_url);
