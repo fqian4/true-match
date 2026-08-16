@@ -372,7 +372,7 @@ tabIndex={-1}
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => (window.location.href = '/requests')}
             >
-              收到的申请
+              收到申请
             </button>
             <button
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -427,7 +427,7 @@ tabIndex={-1}
 
 {u.xhs && (
   <p className="text-sm text-gray-700 mb-0">
-    小红书：{u.xhs}
+    无畏契约：{u.xhs}
   </p>
 )}
 
@@ -597,17 +597,10 @@ tabIndex={-1}
         type="text"
         value={xhs}
         onChange={(e) => setXhs(e.target.value)}
-        placeholder="小红书"
-        className="w-full border rounded-lg p-2 mb-3 text-sm"
-      />
-
-      <input
-        type="text"
-        value={xhs}
-        onChange={(e) => setXhs(e.target.value)}
         placeholder="无畏契约"
         className="w-full border rounded-lg p-2 mb-5 text-sm"
       />
+
 
 <div className="mb-2">
   <p className="mb-2 text-sm font-medium">
