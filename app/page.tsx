@@ -418,7 +418,7 @@ tabIndex={-1}
 <div className="flex items-center gap-4 mb-4">
 
 {u.douyin && (
-  <p className="text-sm text-gray-500 bg-gray-100 mb-0">
+  <p className="text-sm text-gray-600 bg-gray-100 mb-0">
     抖音号：{u.douyin}
   </p>
 )}
@@ -443,7 +443,7 @@ tabIndex={-1}
         <img
           key={index}
           src={photo}
-          className="w-18 h-18 object-cover cursor-pointer mb-4"
+          className="w-17 h-17 object-cover cursor-pointer mb-4"
           onClick={() => {
             setPreviewImage(photo);
             setShowPreview(true);
