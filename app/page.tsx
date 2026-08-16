@@ -466,7 +466,7 @@ tabIndex={-1}
           />
 )}
 
- <p className="font-medium mb-0">
+ <p className="font-medium mb-4">
             {u.wechat_id
               ? u.wechat_id.charAt(0) + '***'
               : '***'}
