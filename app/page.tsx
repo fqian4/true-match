@@ -418,10 +418,12 @@ tabIndex={-1}
 <div className="flex items-center gap-4 mb-4">
 
 {u.douyin && (
-  <p className="font-small mb-0">
+  <p className="text-sm text-gray-500 bg-gray-100 mb-0">
     抖音号：{u.douyin}
   </p>
 )}
+
+
 
 {u.xhs && (
   <p className="mb-0">
@@ -441,7 +443,7 @@ tabIndex={-1}
         <img
           key={index}
           src={photo}
-          className="w-16 h-16 object-cover cursor-pointer mb-4"
+          className="w-18 h-18 object-cover cursor-pointer mb-4"
           onClick={() => {
             setPreviewImage(photo);
             setShowPreview(true);
@@ -457,7 +459,7 @@ tabIndex={-1}
 {(!u.photos || u.photos.length === 0) && u.avatar_url && (
           <img
             src={u.avatar_url}
-            className="w-16 h-16 object-cover rounded-lg border"
+            className="w-18 h-18 object-cover rounded-lg border"
             alt="avatar"
   onClick={() => {
   setPreviewImage(u.avatar_url);
@@ -605,9 +607,9 @@ tabIndex={-1}
         className="w-full border rounded-lg p-2 mb-5 text-sm"
       />
 
-<div className="mt-5">
+<div className="mb-4">
   <p className="mb-2 text-sm font-medium">
-    照片（最多4张）
+    照片
   </p>
 
   <div className="grid grid-cols-2 gap-3">
