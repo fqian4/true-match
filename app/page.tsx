@@ -602,7 +602,7 @@ tabIndex={-1}
       />
 
 
-<div className="mb-2">
+<div className="mb-3">
   <p className="mb-2 text-sm font-medium">
     照片
   </p>
