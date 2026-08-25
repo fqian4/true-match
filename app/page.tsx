@@ -20,6 +20,7 @@ export default function HomePage() {
 const [wechatId, setWechatId] = useState('');
 const [douyin, setDouyin] = useState('');
 const [xhs, setXhs] = useState('');
+const [wuwei, setWuwei] = useState('');
 const [saving, setSaving] = useState(false);
 const [avatarUrl, setAvatarUrl] = useState('');
 const [photos, setPhotos] = useState<string[]>([]);
@@ -203,6 +204,7 @@ console.log('parsedUser', parsedUser);
 setWechatId(parsedUser.wechat_id || '');
 setDouyin(parsedUser.douyin || '');
 setXhs(parsedUser.xhs || '');
+setWuwei(parsedUser.wuwei || '');
 setAvatarUrl(parsedUser.avatar_url || '');
 setPhotos(parsedUser.photos || []);
 
@@ -242,6 +244,7 @@ const saveProfile = async () => {
       wechat_id: wechatId,
       douyin: douyin,
       xhs: xhs,
+	  wuwei: wuwei,
     })
     .eq('id', currentUser.id);
 
@@ -324,6 +327,7 @@ const filteredUsers = users.filter((u) => {
   return (
     u.wechat_id?.toLowerCase().includes(keyword) ||
     u.douyin?.toLowerCase().includes(keyword) ||
+	u.wuwei?.toLowerCase().includes(keyword) ||
     u.xhs?.toLowerCase().includes(keyword)
   );
 });
@@ -372,7 +376,7 @@ tabIndex={-1}
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => (window.location.href = '/requests')}
             >
-              收到申请
+              收到的申请
             </button>
             <button
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -418,7 +422,7 @@ tabIndex={-1}
 <div className="flex items-center gap-4 mb-4">
 
 {u.douyin && (
-  <p className="text-sm text-gray-700 bg-gray-100 mb-0">
+  <p className="font-medium text-gray-700 bg-gray-100 mb-0">
     抖音号：{u.douyin}
   </p>
 )}
@@ -426,8 +430,14 @@ tabIndex={-1}
 
 
 {u.xhs && (
-  <p className="text-sm text-gray-700 mb-0">
-    无畏契约：{u.xhs}
+  <p className="font-medium text-gray-700 bg-gray-100 mb-0">
+    小红书：{u.xhs}
+  </p>
+)}
+
+{u.wuwei && (
+  <p className="font-medium text-gray-700 bg-gray-100 mb-0">
+    无畏契约：{u.wuwei}
   </p>
 )}
 
@@ -453,6 +463,37 @@ tabIndex={-1}
     </div>
   )}
 
+
+<div className="flex items-start justify-between">
+
+
+
+
+ <p className="font-medium">
+            {u.wechat_id
+              ? u.wechat_id.charAt(0) + '***'
+              : '***'}
+          </p>
+
+
+
+<Button
+  variant="ghost"
+  className="w-fit cursor-pointer bg-gray-100 text-gray-600 border-0 shadow-none hover:bg-gray-200 hover:shadow-none"
+  onClick={() => {
+    setSelectedUserId(u.id);
+    setShowAddModal(true);
+  }}
+>
+  <Plus className="h-6 w-6 stroke-[2]" />
+</Button>
+
+
+
+</div>
+
+
+
 <div className="flex items-start justify-between">
 
 <div className="flex items-start gap-6">
@@ -471,24 +512,11 @@ tabIndex={-1}
 
 
 
- <p className="font-medium">
-            {u.wechat_id
-              ? u.wechat_id.charAt(0) + '***'
-              : '***'}
-          </p>
+
 
 </div>
 
-<Button
-  variant="ghost"
-  className="w-fit cursor-pointer bg-gray-100 text-gray-600 border-0 shadow-none hover:bg-gray-200 hover:shadow-none"
-  onClick={() => {
-    setSelectedUserId(u.id);
-    setShowAddModal(true);
-  }}
->
-  <Plus className="h-6 w-6 stroke-[2]" />
-</Button>
+
 
 
 
@@ -541,44 +569,6 @@ tabIndex={-1}
         编辑个人资料
       </h3>
 
-      {/* 头像 */}
-      <div className="flex flex-col items-center mb-5">
-        {avatarUrl ? (
-          <img
-            src={avatarUrl}
-            alt="avatar"
-            className="w-24 h-24 rounded-full object-cover border"
-          />
-        ) : (
-          <div className="w-24 h-24 rounded-full border flex items-center justify-center text-gray-400">
-            无头像
-          </div>
-        )}
-
-        <input
-          id="avatarInput"
-          type="file"
-          accept="image/*"
-          className="hidden"
-          onChange={handleAvatarChange}
-        />
-
-        <label
-          htmlFor="avatarInput"
-          className="mt-3 text-sm text-blue-500 cursor-pointer"
-        >
-          更换头像
-        </label>
-
-        {avatarUrl && (
-          <button
-            className="mt-2 text-sm text-red-500"
-            onClick={handleDeleteAvatar}
-          >
-            删除头像
-          </button>
-        )}
-      </div>
 
 
 
@@ -592,17 +582,27 @@ tabIndex={-1}
         className="w-full border rounded-lg p-2 mb-3 text-sm"
       />
 
-      {/* 小红书 */}
+      {/* 小红书 
       <input
         type="text"
         value={xhs}
         onChange={(e) => setXhs(e.target.value)}
+        placeholder="小红书"
+        className="w-full border rounded-lg p-2 mb-5 text-sm"
+      />
+	  */}
+	  
+	  
+	        <input
+        type="text"
+        value={xhs}
+        onChange={(e) => setWuwei(e.target.value)}
         placeholder="无畏契约"
         className="w-full border rounded-lg p-2 mb-5 text-sm"
       />
 
 
-<div className="mb-3">
+<div className="mb-5">
   <p className="mb-2 text-sm font-medium">
     照片
   </p>
@@ -651,6 +651,46 @@ key={photoInputKey}
 
   </div>
 </div>
+
+
+      {/* 头像 */}
+      <div className="flex flex-col items-center mb-3">
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt="avatar"
+            className="w-24 h-24 rounded-full object-cover border"
+          />
+        ) : (
+          <div className="w-24 h-24 rounded-full border flex items-center justify-center text-gray-400">
+            无头像
+          </div>
+        )}
+
+        <input
+          id="avatarInput"
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleAvatarChange}
+        />
+
+        <label
+          htmlFor="avatarInput"
+          className="mt-3 text-sm text-blue-500 cursor-pointer"
+        >
+          更换头像
+        </label>
+
+        {avatarUrl && (
+          <button
+            className="mt-2 text-sm text-red-500"
+            onClick={handleDeleteAvatar}
+          >
+            删除头像
+          </button>
+        )}
+      </div>
 
       <div className="flex gap-3">
         <Button

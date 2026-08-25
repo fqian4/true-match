@@ -118,7 +118,7 @@ if (error) {
 </label>
 */}
 
-<input type="text" placeholder="请填写微信号，上传微信头像"
+<input type="text" placeholder="请填写微信号"
             value={wechatId}
             onChange={(e) => setWechatId(e.target.value)}
 />
