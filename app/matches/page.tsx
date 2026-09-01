@@ -52,9 +52,9 @@ setLoading(false);
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">我的匹配</h1>
+      <h1 className="text-xl font-bold mb-4">我的好友</h1>
 {loading ? null : matches.length === 0 ? (
-  <p>暂无匹配</p>
+  <p>暂无</p>
 ) : (
       <div className="grid grid-cols-2 gap-4">
         {matches.map((u) => (

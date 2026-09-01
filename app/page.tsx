@@ -464,33 +464,7 @@ tabIndex={-1}
   )}
 
 
-<div className="flex items-start justify-between">
 
-
-
-
- <p className="font-medium">
-            {u.wechat_id
-              ? u.wechat_id.charAt(0) + '***'
-              : '***'}
-          </p>
-
-
-
-<Button
-  variant="ghost"
-  className="w-fit cursor-pointer bg-gray-100 text-gray-600 border-0 shadow-none hover:bg-gray-200 hover:shadow-none"
-  onClick={() => {
-    setSelectedUserId(u.id);
-    setShowAddModal(true);
-  }}
->
-  <Plus className="h-6 w-6 stroke-[2]" />
-</Button>
-
-
-
-</div>
 
 
 
@@ -523,7 +497,33 @@ tabIndex={-1}
 </div>
 
 
+<div className="flex items-start justify-between">
 
+
+
+
+ <p className="font-medium">
+            {u.wechat_id
+              ? u.wechat_id.charAt(0) + '***'
+              : '***'}
+          </p>
+
+
+
+<Button
+  variant="ghost"
+  className="w-fit cursor-pointer bg-gray-100 text-gray-600 border-0 shadow-none hover:bg-gray-200 hover:shadow-none"
+  onClick={() => {
+    setSelectedUserId(u.id);
+    setShowAddModal(true);
+  }}
+>
+  <Plus className="h-6 w-6 stroke-[2]" />
+</Button>
+
+
+
+</div>
 
 
 <div className="flex items-center gap-4">
@@ -562,7 +562,7 @@ tabIndex={-1}
     onClick={() => setShowProfile(false)}
   >
     <div
-      className="bg-white rounded-2xl p-6 w-[340px]"
+      className="bg-white rounded-2xl p-6 w-[340px] max-h-[90vh] overflow-y-auto"
       onClick={(e) => e.stopPropagation()}
     >
       <h3 className="text-center text-lg font-medium mb-5">

@@ -89,7 +89,7 @@ if (error) {
 <div className="fixed top-4 right-6 z-50">
   <Button
   variant="ghost"
-  className="cursor-pointer text-[#ef4b58] bg-transparent border border-[rgba(15,23,42,.16)] shadow-none text-sm"
+  className="cursor-pointer text-[#ef4b58] bg-transparent border border-[rgba(15,23,42,.16)] shadow-none text-xs py-1 h-8"
     onClick={() => router.push('/login')}
   >
     登录
