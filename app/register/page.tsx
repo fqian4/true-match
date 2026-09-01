@@ -16,7 +16,7 @@ export default function RegisterPage() {
 
   const handleRegister = async () => {
     if (!wechatId) {
-      alert('请填写微信号并上传头像');
+      alert('请填写微信号');
       return;
     }
     setLoading(true);
@@ -118,7 +118,7 @@ if (error) {
 </label>
 */}
 
-<input type="text" placeholder="请填写微信号"
+<input type="text" placeholder="请填写手机号/微信号"
             value={wechatId}
             onChange={(e) => setWechatId(e.target.value)}
 />

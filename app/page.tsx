@@ -419,6 +419,7 @@ tabIndex={-1}
       {filteredUsers.map((u) => (
         <Card key={u.id} className="p-6 rounded-lg border-none shadow-none bg-white">
 
+
 <div className="flex items-center gap-4 mb-4">
 
 {u.douyin && (
@@ -502,7 +503,7 @@ tabIndex={-1}
 
 
 
- <p className="font-medium">
+ <p className="font-medium text-gray-600">
             {u.wechat_id
               ? u.wechat_id.charAt(0) + '***'
               : '***'}
@@ -562,7 +563,7 @@ tabIndex={-1}
     onClick={() => setShowProfile(false)}
   >
     <div
-      className="bg-white rounded-2xl p-6 w-[340px] max-h-[90vh] overflow-y-auto"
+      className="bg-white rounded-2xl p-6 w-[340px] overflow-y-auto"
       onClick={(e) => e.stopPropagation()}
     >
       <h3 className="text-center text-lg font-medium mb-5">
@@ -595,15 +596,15 @@ tabIndex={-1}
 	  
 	        <input
         type="text"
-        value={xhs}
+        value={wuwei}
         onChange={(e) => setWuwei(e.target.value)}
         placeholder="无畏契约"
         className="w-full border rounded-lg p-2 mb-5 text-sm"
       />
 
 
-<div className="mb-5">
-  <p className="mb-2 text-sm font-medium">
+<div className="mb-10">
+  <p className="mb-3 text-sm font-medium">
     照片
   </p>
 
@@ -654,7 +655,7 @@ key={photoInputKey}
 
 
       {/* 头像 */}
-      <div className="flex flex-col items-center mb-3">
+      <div className="flex flex-col items-center mb-5">
         {avatarUrl ? (
           <img
             src={avatarUrl}
@@ -684,7 +685,7 @@ key={photoInputKey}
 
         {avatarUrl && (
           <button
-            className="mt-2 text-sm text-red-500"
+            className="mt-1 text-sm text-red-500"
             onClick={handleDeleteAvatar}
           >
             删除头像
