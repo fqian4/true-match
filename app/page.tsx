@@ -372,18 +372,20 @@ tabIndex={-1}
 
         {menuOpen && (
           <div className="absolute right-0 mt-2 bg-white border shadow-lg rounded-xl w-34 py-2">
-            <button
-              className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
-              onClick={() => (window.location.href = '/requests')}
-            >
-              收到的申请
-            </button>
+
             <button
               className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               onClick={() => (window.location.href = '/matches')}
             >
               好友
             </button>
+            <button
+              className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              onClick={() => (window.location.href = '/requests')}
+            >
+              收到的申请
+            </button>
+
 
     <button
       className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
@@ -654,7 +656,7 @@ key={photoInputKey}
 </div>
 
 
-      {/* 头像 */}
+      {/* 头像
       <div className="flex flex-col items-center mb-5">
         {avatarUrl ? (
           <img
@@ -692,6 +694,8 @@ key={photoInputKey}
           </button>
         )}
       </div>
+
+*/}
 
       <div className="flex gap-3">
         <Button

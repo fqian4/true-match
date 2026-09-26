@@ -52,7 +52,7 @@ setLoading(false);
 
   return (
     <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">我的好友</h1>
+      <h1 className="text-xl font-bold mb-4">好友</h1>
 {loading ? null : matches.length === 0 ? (
   <p>暂无好友</p>
 ) : (

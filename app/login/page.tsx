@@ -62,10 +62,17 @@ export default function LoginPage() {
 <h1 className="text-xl font-normal text-center"></h1>
 <div className="flex items-center gap-3">
           <Input
-            placeholder="请输入微信号"
+            placeholder="请输入手机号/微信号"
         value={wechatId}
         onChange={(e) => setWechatId(e.target.value)}
-className="h-12 text-lg placeholder:text-gray-460"
+className="h-12 text-lg placeholder:text-gray-460
+  outline-none
+  shadow-none
+  focus:outline-none
+  focus:ring-0
+  focus-visible:outline-none
+  focus-visible:ring-0
+"
           />
 
           <Button
