@@ -15,6 +15,9 @@ export default function RegisterPage() {
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
+
+if (loading) return;
+
     if (!wechatId) {
       alert('请填写微信号');
       return;
@@ -129,7 +132,15 @@ onClick={handleRegister}
 
 
 
+
+
 </div>
+
+  {loading && (
+    <div className="text-xs text-gray-400 mt-2">
+      注册中…
+    </div>
+  )}
 
 </div>
 
